@@ -6,3 +6,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+# Dependencies used for the actual handshake
+tokio = { version = "1.33.0", features = ["full"] }
+byteorder = "1.5.0"
+sha2 = "0.10.8"
+
+# Extra dependencies for the demonstration code in main.rs
+rand = "0.8.5"
+clap = { version = "4.4.8", features = ["derive"] }
+
+[dev-dependencies]
+assert2 = "0.3.11"

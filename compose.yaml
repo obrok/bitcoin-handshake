@@ -1,0 +1,27 @@
+services:
+  bitcoind:
+    build:
+      dockerfile: Dockerfile.bitcoind
+    ports:
+      - 8333:8333
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "bitcoin-cli -conf=$$BITCOIN_DATA_DIR/bitcoin.conf getblockchaininfo"
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 5
+
+  dev:
+    image: rust:1.73-buster
+    environment:
+      - RUST_LOG=debug
+    entrypoint: cargo run
+    volumes:
+      - .:/code
+    working_dir: /code
+    depends_on:
+      bitcoind:
+        condition: service_healthy

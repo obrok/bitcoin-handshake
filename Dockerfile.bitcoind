@@ -23,7 +23,8 @@ RUN tar -xzvf bitcoin-${BITCOIN_VERSION}-${ARCH}-linux-gnu.tar.gz -C /opt/bitcoi
 RUN ln -s /opt/bitcoin/${BITCOIN_VERSION} /opt/bitcoin/current
 RUN rm -rf /tmp/*
 
-# Copy config file
+# Setup runtime config
 COPY bitcoin.conf ${BITCOIN_DATA_DIR}/bitcoin.conf
+ENV PATH="/opt/bitcoin/current/bin:${PATH}"
 
-ENTRYPOINT ["/opt/bitcoin/current/bin/bitcoind", "-conf=${BITCOIN_DATA_DIR}/bitcoin.conf", "-datadir=${BITCOIN_DATA_DIR}"]
+ENTRYPOINT /opt/bitcoin/current/bin/bitcoind -conf=${BITCOIN_DATA_DIR}/bitcoin.conf -datadir=${BITCOIN_DATA_DIR}
